@@ -1,0 +1,12 @@
+package day7;
+
+public class ExceptionHandling {
+
+	
+	public static void main(String[] args) {
+		System.out.println("Selenium");
+		System.out.println(10/0);
+		System.out.println("Soapui");
+	}
+
+}

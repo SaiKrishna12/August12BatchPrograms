@@ -1,0 +1,63 @@
+package com.poc;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class TestSample{
+	WebElement reqDate;
+	User user = new User();
+	public void datePicker(String year,String month,String date) throws InterruptedException{
+		
+		WebElement yearPart = user.driver.findElement(By.xpath("//div[@id='calendarelements']/table/tbody/tr[2]/td[2]"));
+		System.out.println(yearPart.getText());
+		while(!yearPart.getText().contains(year)){
+			user.driver.findElement(By.xpath("//img[@src='/demandtec/images/forward.gif']")).click();
+		}
+		while(!yearPart.getText().contains(month)){
+			user.driver.findElement(By.xpath("//img[@src='/demandtec/images/forward.gif']")).click();
+		}
+		for(int col = 1;col <= 7;col++){
+			for(int row = 3;row< 8;row++){
+				try{
+					reqDate = user.driver.findElement(By.xpath("//div[@id='calendarelements']/table/tbody/tr["+row+"]/"+"td["+col+"]"));
+				}
+				catch(Exception e){
+					e.printStackTrace();
+					
+				}
+				System.out.print(reqDate.getText()+"    ");
+				if(reqDate.getText().contains(date)){
+					reqDate.click();
+					Thread.sleep(2000);
+				}
+			}
+			System.out.println();
+		}
+				
+	}
+	public void switchToLocator(WebElement locator){
+		user.driver.switchTo().frame(locator);
+	}
+
+	public void testStartDate() throws InterruptedException{
+		
+		
+		WebElement startDate = user.driver.findElement(By.xpath("//table[@class='calendarTable']/.//tr[2]/td[2]/img"));
+		startDate.click();
+		Thread.sleep(1000);
+		WebElement startDateFrame =user.driver.findElement(By.xpath("//iframe[@class='dialogIframe']"));
+		switchToLocator(startDateFrame);
+		
+		Thread.sleep(2000);
+		datePicker(""+2015,"Sep",""+11);
+		
+	}
+	public void testEndDate() throws InterruptedException{
+		WebElement endDate = user.driver.findElement(By.xpath("//table[@class='calendarTable']/.//tr[2]/td[3]/img"));
+		endDate.click();
+		Thread.sleep(2000);
+	}
+	
+}
+
+

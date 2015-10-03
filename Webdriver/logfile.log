@@ -1,0 +1,7 @@
+2015-09-30 00:14:16,203 INFO  [LoginusinLog4j] Browser launched 
+2015-09-30 00:14:16,722 INFO  [LoginusinLog4j] opened yahoomail 
+2015-09-30 00:15:35,373 INFO  [LoginusinLog4j] Browser launched 
+2015-09-30 00:15:51,999 INFO  [LoginusinLog4j] opened yahoomail 
+2015-09-30 00:15:54,726 INFO  [LoginusinLog4j] entered username 
+2015-09-30 00:15:54,795 INFO  [LoginusinLog4j] entered password 
+2015-09-30 00:15:55,905 INFO  [LoginusinLog4j] logged into the app 

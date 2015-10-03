@@ -1,0 +1,22 @@
+package day26;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class LoginusinLog4j {
+
+	private Logger log=Logger.getLogger(LoginusinLog4j.class);
+	public static void main(String[] args) {
+		DOMConfigurator.configure("log4j.xml");
+		FirefoxDriver driver=new FirefoxDriver();
+		log.
+		driver.get("http://yahoomail.com");
+		driver.findElement(By.xpath("//*[@id='login-username']")).sendKeys("saikrishna");
+		driver.findElement(By.id("login-passwd")).sendKeys("pass@123");
+		driver.findElement(By.name("signin")).click();
+
+	}
+
+}

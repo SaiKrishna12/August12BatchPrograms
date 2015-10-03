@@ -1,0 +1,189 @@
+package com.poc;
+
+
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.thoughtworks.selenium.webdriven.commands.KeyEvent;
+
+public class User {
+	public static WebDriver driver;
+	public static WebElement logOutLink;
+	@BeforeClass
+	public void setUp(){
+		driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+		driver.get("http://mydt.demandtec.com");
+		driver.manage().timeouts().implicitlyWait(40,TimeUnit.SECONDS);
+	}
+
+	//@Test
+	public void userLogin(){
+		
+		driver.findElement(By.id("username")).sendKeys("venkat");
+		driver.findElement(By.id("password")).sendKeys("venkat@123");
+		driver.findElement(By.id("loginBtn")).click();
+		
+	}
+	public static void customExplicitWait(WebElement locator){
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		wait.until(ExpectedConditions.visibilityOf(locator));
+		
+	}
+	public boolean logOut(){
+		// Capture log out link
+		logOutLink =driver.findElement(By.id("dt-logout"));
+		//verify and click logout link 
+		if(logOutLink.isDisplayed()){
+			logOutLink.click();
+			
+		}
+		return true;
+	}
+	
+	public void promo() throws InterruptedException{
+		WebElement newPromoLink = driver.findElement(By.linkText("New Promotion"));
+		newPromoLink.click();
+		WebElement popUpelement  = driver.findElement(By.className("dialogIframe"));
+		Thread.sleep(5000);
+		driver.switchTo().frame(popUpelement);
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		//wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[starts-with(@id,'#1441702')]")));
+		//yet to replace the from the excel file
+		driver.findElement(By.id("pr_name")).sendKeys("Apple, Buy 3-6 Qty get 2% off, Buy 7-9999 get 3% off");
+		
+		//yet to replace the from the excel file
+		driver.findElement(By.id("pr_desc")).sendKeys("AppleTrail Promo");
+		
+		//yet to replace the from the excel file
+		driver.findElement(By.id("pr_id")).sendKeys("19477");
+		
+		//yet to replace the from the excel file
+		driver.findElement(By.id("pr_comments")).sendKeys("AppleTrail comments");
+		
+		//yet to replace the from the excel file
+		driver.findElement(By.id("pr_attribute1")).sendKeys("AppleTrail Attribute");
+		
+		driver.findElement(By.id("btnSave")).click();
+		
+		//wait.until(ExpectedConditions.)
+		driver.switchTo().defaultContent();
+		
+		//Retrieving source id
+		String srcId = driver.findElement(By.id("leftNavsourceID")).getText();
+		System.out.println( "The source id for the Promotion is : #"+srcId);
+		
+		//To work with start date
+		WebElement startDate = driver.findElement(By.id("arg_startdate"));
+		startDate.clear();
+		TestSample ts = new TestSample();
+		ts.testStartDate();
+		/*startDate.sendKeys("Sep 09, 2015");
+		Thread.sleep(1000);
+		startDate.click();
+		Thread.sleep(1000);*/
+		//To work with end date 
+		WebElement endDate = driver.findElement(By.id("arg_enddate"));
+		endDate.clear();
+		
+		ts.testEndDate();
+		
+		WebElement quickAddFrame = driver.findElement(By.id("iframe"));
+		//clicking on the Quick Add... Link
+		driver.findElement(By.linkText("Quick Add...")).click();
+		Thread.sleep(5000);
+		
+		//switchng to the Frame
+		
+		driver.switchTo().frame(quickAddFrame);
+		
+		//To enter data in the Quick Add frame
+		WebElement textArea = driver.findElement(By.id("searchArea"));
+		textArea.clear();
+		textArea.sendKeys("19477");
+		
+		driver.findElement(By.xpath("//*[@id='searchButton']/span[1]")).click();
+		
+		Thread.sleep(3000);
+		
+		String searchText = driver.findElement(By.xpath("//div[@id='resultsGrid']/div[3]/div[2]/div/table/tbody/tr/td[1]")).getText();
+		if(searchText.contains("19477")){
+			System.out.println("Upc Result is matched ");
+			driver.findElement(By.xpath("//span[@id='spanAdd']/a")).click();
+			
+		}
+		else{
+			System.out.println("Upc Result is not matched ");
+		}
+		
+		driver.switchTo().defaultContent();
+		WebElement lgcElement = driver.findElement(By.id("arg_zonegroup")); 
+		Select lgc = new Select(lgcElement);
+		Thread.sleep(3000);
+		//Selecting the Individual Clubs from the Location Group Class
+		//lgc.selectByIndex(1);//("Individual Clubs");
+		lgc.selectByValue("27");
+		
+		Thread.sleep(2000);
+		WebElement locationGroup = driver.findElement(By.id("arg_zones"));
+		Select lGroup = new Select(locationGroup);
+		List<WebElement>allItems = lGroup.getOptions();
+		System.out.println("No of elements :"+allItems.size());
+		lGroup.deselectAll();
+		Thread.sleep(2000);
+		//Retrieving the club names
+		String clubNames = "4706,4712,4713,4716";
+		clubNames = clubNames.trim();
+		String[] multiClubs  = clubNames.split(",");
+		/*for(WebElement ele : allItems){
+			for(int clubNum = 0;clubNum < multiClubs.length;clubNum++){
+				System.out.println(ele.getText()+" ****** "+multiClubs[0]);
+				if(ele.getText().contains(""+multiClubs[0])){
+					lGroup.selectByIndex(clubNum);
+					Thread.sleep(1000);
+				}
+			}
+		}*/
+		
+		for(int itemNum =0;itemNum<allItems.size();itemNum++){
+			for(int clubNum = 0;clubNum < multiClubs.length;clubNum++){
+				System.out.println(allItems.get(itemNum).getText()+" **** "+multiClubs[0]);
+				if(allItems.get(itemNum).getText().contains(multiClubs[0])){
+					
+					lGroup.selectByIndex(itemNum);
+			}
+		}
+		
+	}
+		
+		
+		
+		
+		// Verifying the multiple values 4706,4712,4713,4716
+		
+		
+		
+	}
+	
+	//@AfterClass
+	public void tearDown() throws InterruptedException{
+		Thread.sleep(5000);
+		logOut();
+		Thread.sleep(3000);
+		driver.quit();
+		
+	}
+}

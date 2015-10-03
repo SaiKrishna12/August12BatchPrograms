@@ -1,0 +1,13 @@
+package com.orangehrm.testsuite;
+
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Test;
+
+public class Logout  extends Constants{
+@Test
+public void logoutTest()
+{
+	LogoutPage lp=PageFactory.initElements(driver,LogoutPage.class);
+	lp.logout();
+}
+}

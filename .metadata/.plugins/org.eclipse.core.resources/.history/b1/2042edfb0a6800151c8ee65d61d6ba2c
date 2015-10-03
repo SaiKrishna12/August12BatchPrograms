@@ -1,0 +1,13 @@
+package com.orangehrm.testsuite;
+
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.orangehrm.utility.ExcelOperations;
+
+public class Constants {
+	
+	static FirefoxDriver driver=null;
+	ExcelOperations  eo=new ExcelOperations();
+	String path1="E:\\August12Batch\\OrangeHRM\\src\\com\\orangehrm\\excelfiles\\EmployeeList.xlsx";
+
+}

@@ -1,0 +1,24 @@
+package day26.pom;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class WelcomeMercuryTours {
+	
+	@FindBy(name="userName")
+	WebElement userName;
+	@FindBy(name="password")
+	WebElement password;
+	@FindBy(name="login")
+	WebElement login;
+	public void findAFlight(String u,String p)
+	{
+		userName.sendKeys(u);
+		password.sendKeys(p);
+		login.click();
+	}
+	
+	
+	
+
+}
